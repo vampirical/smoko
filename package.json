@@ -2,7 +2,8 @@
   "name": "smoko",
   "version": "1.0.0",
   "description": "An easy way to give CloudFront served content a break.",
-  "main": "src/index.js",
+  "main": "./src/index.js",
+  "bin": "./src/index.js",
   "repository": {
     "type": "git",
     "url": "git+ssh://git@github.com/vampirical/smoko.git"
