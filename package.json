@@ -1,6 +1,6 @@
 {
   "name": "smoko",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "An easy way to give CloudFront served content a break.",
   "main": "./src/index.js",
   "bin": "./src/index.js",
