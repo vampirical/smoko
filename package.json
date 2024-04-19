@@ -1,0 +1,23 @@
+{
+  "name": "smoko",
+  "version": "1.0.0",
+  "description": "An easy way to give CloudFront served content a break.",
+  "main": "src/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/vampirical/smoko.git"
+  },
+  "keywords": [
+    "maintenance",
+    "CloudFront"
+  ],
+  "author": "Jeff Marion <jeff@marion.mx>",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-cloudfront": "^3.556.0",
+    "@aws-sdk/client-iam": "^3.556.0",
+    "@aws-sdk/client-lambda": "^3.556.0",
+    "commander": "^12.0.0",
+    "zip-stream": "^6.0.1"
+  }
+}
