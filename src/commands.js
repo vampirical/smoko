@@ -4,8 +4,8 @@ const {LambdaClient, CreateFunctionCommand, GetFunctionCommand, ResourceNotFound
 const {readFileSync} = require('fs');
 const ZipStream = require('zip-stream');
 
+const LAMBDA_PREFIX = 'smoko';
 const LAMBDA_ROLE = 'smoko-lambda';
-const LAMBDA_PREFIX = 'smoko-';
 
 const iamClient = new IAMClient();
 const cfClient = new CloudFrontClient();
@@ -16,20 +16,28 @@ function info(options, message) {
     return;
   }
 
-  console.info(`[${new Date().toISOString()}] ${message}`);
+  const output = {at: new Date().toISOString(), message};
+
+  if (options.json) {
+    console.log(output);
+
+    return;
+  }
+
+  console.log(`[${output.at}] ${output.message}`);
 }
 
 function respond(options, response) {
   const atString = new Date().toISOString();
 
   if (options.json) {
-    console.log({...response, at: atString});
+    console.log({at: atString, ...response});
 
     return;
   }
 
   if (!response.completed) {
-    console.error(`[${atString}] Failed!`);
+    console.log(`[${atString}] Failed!`);
   }
   console.log(`[${atString}] ${response.message}`);
 }
@@ -228,13 +236,19 @@ async function start() {
   let content = options.content;
   if (options.file) {
     if (content) {
-      throw new Error('Only one of content or file should be specified, which do you want?');
+      return respond(options, {
+        completed: false,
+        message: 'Only one of content or file should be specified, which do you want?'
+      });
     }
 
     content = readFileSync(options.file, 'utf8');
   }
+  if (options.content === undefined && options.file === undefined) {
+    content = readFileSync(`${__dirname}/../examples/minimal.html`, 'utf8');
+  }
   if (!content) {
-    console.warn(`[${new Date().toISOString()}] Warning, maintenance page is blank.`);
+    info(options, 'Warning, maintenance page is blank.');
     await sleep(1000);
   }
 
